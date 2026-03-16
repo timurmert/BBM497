@@ -1,56 +1,93 @@
+# Timur Mert USTA - PA1
+
 import sys
 from collections import Counter
 
 def train_BPE(file_name, init_vocab, max_merge_count=10, topK=1):
-    with open(file_name, 'r', encoding='utf-8') as f:
-        content = f.read()
 
+    # read the file
+    f = open(file_name, 'r', encoding='utf-8')
+    content = f.read()
+    f.close()
+
+    # split by whitespace
     words = content.split()
-    corpus = [['_'] + list(word) + ['_'] for word in words]
+
+    # add _ to beginning and end of each word
+    corpus = []
+    for word in words:
+        token = ['_'] + list(word) + ['_']
+        corpus.append(token)
 
     merges = []
     vocabulary = list(init_vocab)
 
-    for _ in range(max_merge_count):
+    # repeat merge operation max_merge_count times
+    for repeat in range(max_merge_count):
+
+        # count frequencies of adjacent pairs
         pair_counts = Counter()
         for word in corpus:
             for i in range(len(word) - 1):
                 pair_counts[(word[i], word[i + 1])] += 1
 
-        if not pair_counts:
+        if not pair_counts: # if no pair_counts return.
             break
 
-        candidates = [(p[0], p[1], c) for p, c in pair_counts.items()]
-        candidates.sort(key=lambda x: (-x[2], len(x[0] + x[1]), x[0] + x[1]))
+        # candidate list for token1, token2, frequency
+        candidates = []
+        for pair, count in pair_counts.items():
+            candidates.append((pair[0], pair[1], count))
 
+        def sort_key(x):
+            merged = x[0] + x[1]
+            return (-x[2], len(merged), merged)
+
+        candidates.sort(key=sort_key)
+
+        # take first topK candidates
         top_candidates = candidates[:topK]
 
+        # which underscroe rule selected
         selected = None
+
+        # first candidate whose merged string starts with _
         for c in top_candidates:
-            if (c[0] + c[1]).startswith('_'):
+            merged = c[0] + c[1]
+            if merged.startswith('_'):
                 selected = c
                 break
+
+        # if not found first candidate whose merged string ends with _
         if selected is None:
             for c in top_candidates:
-                if (c[0] + c[1]).endswith('_'):
+                merged = c[0] + c[1]
+                if merged.endswith('_'):
                     selected = c
                     break
+
+        # if none found, pick the first candidate
         if selected is None:
             selected = top_candidates[0]
 
+        # add selected pair to merges list
         merges.append(selected)
         merged_token = selected[0] + selected[1]
+
+        # add new token to vocabulary
         vocabulary.append(merged_token)
 
-        for i, word in enumerate(corpus):
+        # apply the merge to all words in corpus
+        for i in range(len(corpus)):
             new_word = []
             j = 0
-            while j < len(word):
-                if j < len(word) - 1 and word[j] == selected[0] and word[j + 1] == selected[1]:
+            while j < len(corpus[i]):
+                # if adjacent tokens match the selected pair, merge them
+                if j < len(corpus[i]) - 1 and corpus[i][j] == selected[0] and corpus[i][j + 1] == selected[1]:
                     new_word.append(merged_token)
                     j += 2
                 else:
-                    new_word.append(word[j])
+                    new_word.append(corpus[i][j])
                     j += 1
             corpus[i] = new_word
 
@@ -58,32 +95,51 @@ def train_BPE(file_name, init_vocab, max_merge_count=10, topK=1):
 
 
 def test_BPE(file_name, merges, vocabulary):
-    with open(file_name, 'r', encoding='utf-8') as f:
-        content = f.read()
 
+    # read the file
+    f = open(file_name, 'r', encoding='utf-8')
+    content = f.read()
+    f.close()
+
+    # split by whitespace
     words = content.split()
-    corpus = [['_'] + list(word) + ['_'] for word in words]
 
+    # add _ to beginning and end of each word split into chars
+    corpus = []
+    for word in words:
+        token = ['_'] + list(word) + ['_']
+        corpus.append(token)
+
+    # apply each merge rule in order
     for merge in merges:
-        token1, token2 = merge[0], merge[1]
+        token1 = merge[0]
+        token2 = merge[1]
         merged_token = token1 + token2
-        for i, word in enumerate(corpus):
+
+        # check merge rule for each word
+        for i in range(len(corpus)):
             new_word = []
             j = 0
-            while j < len(word):
-                if j < len(word) - 1 and word[j] == token1 and word[j + 1] == token2:
+            while j < len(corpus[i]):
+                # if match found merge them
+                if j < len(corpus[i]) - 1 and corpus[i][j] == token1 and corpus[i][j + 1] == token2:
                     new_word.append(merged_token)
                     j += 2
                 else:
-                    new_word.append(word[j])
+                    new_word.append(corpus[i][j])
                     j += 1
             corpus[i] = new_word
 
+    # flatten nested list
     tokenized_corpus = []
     for word in corpus:
-        tokenized_corpus.extend(word)
+        for token in word:
+            tokenized_corpus.append(token)
 
-    input_ids = [vocabulary.index(token) for token in tokenized_corpus]
+    # find index of each token in vocabulary
+    input_ids = []
+    for token in tokenized_corpus:
+        input_ids.append(vocabulary.index(token))
 
     return tokenized_corpus, input_ids
 
