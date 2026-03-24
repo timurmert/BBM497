@@ -1,0 +1,50 @@
+LM numOfTokens:  48
+LM sizeOfVocab:  9
+LM numOfSentences:  7
+LM Sentences: 
+ [['<s>', 'a', 'b', 'c', 'd', '.', '</s>'], ['<s>', 'a', 'b', 'b', 'c', 'd', '.', '</s>'], ['<s>', 'a', 'c', 'd', '.', '</s>'], ['<s>', 'a', 'b', 'c', 'f', '.', '</s>'], ['<s>', 'e', 'c', 'f', '.', '</s>'], ['<s>', 'e', 'c', 'd', '.', '</s>'], ['<s>', 'e', 'b', 'b', 'c', 'd', '.', '</s>']]
+LM Sorted Vocabulary (Unigrams) with Frequencies: 
+ [('.', 7), ('</s>', 7), ('<s>', 7), ('c', 7), ('b', 6), ('d', 5), ('a', 4), ('e', 3), ('f', 2)]
+LM Sorted Bigrams with Frequencies: 
+ [(('.', '</s>'), 7), (('c', 'd'), 5), (('d', '.'), 5), (('<s>', 'a'), 4), (('b', 'c'), 4), (('<s>', 'e'), 3), (('a', 'b'), 3), (('b', 'b'), 2), (('c', 'f'), 2), (('e', 'c'), 2), (('f', '.'), 2), (('a', 'c'), 1), (('e', 'b'), 1)]
+unigramCount('a'): 4
+unigramCount('b'): 6
+unigramCount('g'): 0
+unigramProb('a'): 0.08333333333333333
+unigramProb('b'): 0.125
+unigramProb('g'): 0
+bigramCount(('a','b')): 3
+bigramCount(('b','a')): 0
+bigramCount(('a','g')): 0
+bigramCount(('g','a')): 0
+bigramCount(('g','g')): 0
+bigramProb(('a','b')): 0.75
+bigramProb(('b','a')): 0
+bigramProb(('g','a')): 0
+bigramProb(('a','g')): 0
+bigramProb(('g','g')): 0
+unigramProb_SmoothingUNK('a'): 0.08620689655172414
+unigramProb_SmoothingUNK('b'): 0.1206896551724138
+unigramProb_SmoothingUNK('g'): 0.017241379310344827
+bigramProb_SmoothingUNK(('a','b')): 0.2857142857142857
+bigramProb_SmoothingUNK(('b','a')): 0.0625
+bigramProb_SmoothingUNK(('g','a')): 0.1
+bigramProb_SmoothingUNK(('a','g')): 0.07142857142857142
+bigramProb_SmoothingUNK(('g','g')): 0.1
+sentenceProb(['<s>','a','f','d','.','</s>']): 0.00032954358213873794
+sentenceProb(['<s>','a','c','d','.','</s>']): 0.0027914279898810746
+sentenceProb(['<s>','a','b','c','d','.','</s>']): 0.0017446424936756713
+sentenceProb(['<s>','</s>']): 0.0588235294117647
+sentenceProb(['<s>']): 0.13793103448275862
+sentenceProb(['a']): 0.08620689655172414
+generateSentence(): ['<s>', 'a', 'b', 'c', 'd', '.', '</s>']
+generateSentence(["<s>"],2,20): ['<s>', 'a', 'b', 'c', 'f', '.', '</s>']
+generateSentence(["<s>"],2,20): ['<s>', 'e', 'c', 'd', '.', '</s>']
+generateSentence(["<s>"],3,20): ['<s>', 'e', 'c', 'f', '.', '</s>']
+generateSentence(["<s>"],3,20): ['<s>', 'a', 'b', 'b', 'b', 'c', 'd', '.', '</s>']
+generateSentence(["<s>"],2,2): ['<s>', 'e', 'c', '</s>']
+generateSentence(["<s>"],2,2): ['<s>', 'a', 'b', '</s>']
+generateSentence(["<s>"],2,2): ['<s>', 'e', 'c', '</s>']
+generateSentence(["<s>"],2,1): ['<s>', 'a', '</s>']
+generateSentence(["<s>"],2,1): ['<s>', 'a', '</s>']
+generateSentence(["<s>"],2,0): ['<s>', '</s>']

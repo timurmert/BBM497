@@ -1,0 +1,41 @@
+Doğal dil işleme, bilgisayarların insan dilini analiz etmesini sağlayan bir alandır.
+Bu alan, dilbilim ile yapay zekanın kesişiminde yer alır.
+Bir dil modeli, kelime dizilerinin olasılığını tahmin etmeye çalışır.
+N-gram modelleri, bir kelimenin olasılığını önceki kelimelere göre hesaplar.
+Unigram modeli yalnızca tekil kelime sıklıklarını kullanır.
+Bigram modeli, bir kelimenin hemen önce gelen kelimeye bağlı olduğunu varsayar.
+Trigram modeli ise iki önceki kelimeyi bağlam olarak kullanır.
+Daha uzun bağlam, bazı durumlarda daha iyi tahmin yapılmasına yardımcı olabilir.
+Ancak bağlam büyüdükçe veri seyrekliği problemi daha belirgin hale gelir.
+Bu nedenle smoothing yöntemleri dil modellemede önemli bir yere sahiptir.
+Add-one smoothing, görülmeyen kelimelere ve dizilere sıfır olmayan olasılık verir.
+Perplexity, bir dil modelinin test verisini ne kadar iyi açıkladığını ölçer.
+Düşük perplexity değeri, genellikle daha iyi bir model anlamına gelir.
+Tokenization adımı, metni anlamlı birimlere ayırmayı amaçlar.
+Noktalama işaretleri de bu süreçte ayrı tokenlar olarak ele alınabilir.
+Türkçe metinlerde büyük ve küçük harf dönüşümü dikkatli yapılmalıdır.
+Özellikle I ve İ harfleri doğru biçimde dönüştürülmelidir.
+Bir cümlenin başlangıcı ve sonu özel sembollerle gösterilebilir.
+Bu amaçla <s> ve </s> gibi sınır belirteçleri kullanılır.
+Dil modelleri yalnızca üretim için değil, değerlendirme için de kullanılabilir.
+
+Makine öğrenmesi tabanlı modern sistemler, istatistiksel yöntemlerin ötesine geçmiştir.
+Buna rağmen klasik N-gram modelleri eğitim açısından hâlâ çok değerlidir.
+Çünkü bu modeller, olasılık hesaplarının nasıl çalıştığını açık biçimde gösterir.
+Ayrıca öğrencilerin veri ön işleme aşamalarını daha iyi anlamasına yardımcı olur.
+Bir eğitim korpusu dikkatle seçilirse küçük veriyle bile anlamlı sonuçlar üretilebilir.
+Farklı türde metinlerin karıştırılması sözlük çeşitliliğini artırabilir.
+Ansiklopedi metinleri daha açıklayıcı ve düzenli cümleler içerir.
+Haber metinleri ise daha güncel olayları ve özel adları barındırır.
+Teknik metinler, alan terimlerini daha sık tekrar eder.
+Bu yüzden korpus seçimi model davranışını doğrudan etkiler.
+Eğitim verisi ile test verisi aynı olmamalıdır.
+Aksi halde model gerçek genelleme becerisi yerine ezber performansı gösterebilir.
+Bu nedenle ayrı bir test dosyası kullanmak gerekir.
+Ek olarak, değerlendirme sırasında gizli bir test dosyası da kullanılacaktır.
+Bu yaklaşım, aşırı uyumu azaltır ve daha adil bir ölçüm sağlar.
+Bir model eğitim metnindeki cümleleri yüksek olasılıkla değerlendirebilir.
+Fakat asıl önemli olan, benzer ama görülmemiş cümlelerde de makul sonuç vermesidir.
+N-gram yaklaşımı sınırlı olsa da temel kavramları öğretmek için oldukça uygundur.
+Ödev kapsamında öğrenciler hem sayımları hem de olasılık hesaplarını uygulayacaktır.
+Sonuç olarak bu çalışma, dil modellemenin temel ilkelerini somutlaştırmayı amaçlar.

@@ -1,0 +1,4 @@
+Dil modeli kelime olasılığı tahmin eder.
+Bigram modeli komşu kelimeleri kullanır.
+Trigram modeli daha geniş bağlam kullanır.
+Perplexity düşük ise model daha iyidir!
