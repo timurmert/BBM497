@@ -4,7 +4,6 @@ import math
 import random
 import re
 import codecs
-import tokenize
 
 """
 Important:
@@ -153,7 +152,7 @@ class ngramLM:
 
     def unigramProb(self, word):
 
-        if self.numOfTokens == 0:
+        if self.numOfTokens == 0 or self.unigramCount(word) == 0:
             return 0
 
         return self.unigramCount(word) / self.numOfTokens
@@ -162,7 +161,7 @@ class ngramLM:
         
         denominator = self.unigramCount(bigram[0])
 
-        if denominator == 0:
+        if denominator == 0 or self.bigramCount(bigram) == 0:
             return 0
 
         return self.bigramCount(bigram) / denominator
@@ -171,7 +170,7 @@ class ngramLM:
 
         denominator = self.bigramCount(trigram[0:2])
 
-        if denominator == 0:
+        if denominator == 0 or self.trigramCount(trigram) == 0:
             return 0
         
         return self.trigramCount(trigram) / self.bigramCount(trigram[0:2])
@@ -319,61 +318,7 @@ class ngramLM:
         return generated
 
 lm = ngramLM()
-lm.trainFromFile("tinyTestCorpus.txt")
-
-with open("tinyTest_output.txt", "w", encoding="utf-8") as f:
-    print("LM numOfTokens: ", lm.numOfTokens, file=f)
-    print("LM sizeOfVocab: ", lm.sizeOfVocab, file=f)
-    print("LM numOfSentences: ", lm.numOfSentences, file=f)
-    print("LM Sentences: \n", lm.sentences, file=f)
-    print("LM Sorted Vocabulary (Unigrams) with Frequencies: \n", lm.vocab(), file=f)
-    print("LM Sorted Bigrams with Frequencies: \n", lm.bigrams(), file=f)
-
-    print("unigramCount('a'):", lm.unigramCount('a'), file=f)
-    print("unigramCount('b'):", lm.unigramCount('b'), file=f)
-    print("unigramCount('g'):", lm.unigramCount('g'), file=f)
-
-    print("unigramProb('a'):", lm.unigramProb('a'), file=f)
-    print("unigramProb('b'):", lm.unigramProb('b'), file=f)
-    print("unigramProb('g'):", lm.unigramProb('g'), file=f)
-
-    print("bigramCount(('a','b')):", lm.bigramCount(('a','b')), file=f)
-    print("bigramCount(('b','a')):", lm.bigramCount(('b','a')), file=f)
-    print("bigramCount(('a','g')):", lm.bigramCount(('a','g')), file=f)
-    print("bigramCount(('g','a')):", lm.bigramCount(('g','a')), file=f)
-    print("bigramCount(('g','g')):", lm.bigramCount(('g','g')), file=f)
-
-    print("bigramProb(('a','b')):", lm.bigramProb(('a','b')), file=f)
-    print("bigramProb(('b','a')):", lm.bigramProb(('b','a')), file=f)
-    print("bigramProb(('g','a')):", lm.bigramProb(('g','a')), file=f)
-    print("bigramProb(('a','g')):", lm.bigramProb(('a','g')), file=f)
-    print("bigramProb(('g','g')):", lm.bigramProb(('g','g')), file=f)
-
-    print("unigramProb_SmoothingUNK('a'):", lm.unigramProb_SmoothingUNK('a'), file=f)
-    print("unigramProb_SmoothingUNK('b'):", lm.unigramProb_SmoothingUNK('b'), file=f)
-    print("unigramProb_SmoothingUNK('g'):", lm.unigramProb_SmoothingUNK('g'), file=f)
-
-    print("bigramProb_SmoothingUNK(('a','b')):", lm.bigramProb_SmoothingUNK(('a','b')), file=f)
-    print("bigramProb_SmoothingUNK(('b','a')):", lm.bigramProb_SmoothingUNK(('b','a')), file=f)
-    print("bigramProb_SmoothingUNK(('g','a')):", lm.bigramProb_SmoothingUNK(('g','a')), file=f)
-    print("bigramProb_SmoothingUNK(('a','g')):", lm.bigramProb_SmoothingUNK(('a','g')), file=f)
-    print("bigramProb_SmoothingUNK(('g','g')):", lm.bigramProb_SmoothingUNK(('g','g')), file=f)
-
-    print("sentenceProb(['<s>','a','f','d','.','</s>']):", lm.sentenceProb(['<s>','a','f','d','.','</s>']), file=f)
-    print("sentenceProb(['<s>','a','c','d','.','</s>']):", lm.sentenceProb(['<s>','a','c','d','.','</s>']), file=f)
-    print("sentenceProb(['<s>','a','b','c','d','.','</s>']):", lm.sentenceProb(['<s>','a','b','c','d','.','</s>']), file=f)
-    print("sentenceProb(['<s>','</s>']):", lm.sentenceProb(['<s>','</s>']), file=f)
-    print("sentenceProb(['<s>']):", lm.sentenceProb(['<s>']), file=f)
-    print("sentenceProb(['a']):", lm.sentenceProb(['a']), file=f)
-
-    print("generateSentence():", lm.generateSentence(), file=f)
-    print("generateSentence([\"<s>\"],2,20):", lm.generateSentence(["<s>"],2,20), file=f)
-    print("generateSentence([\"<s>\"],2,20):", lm.generateSentence(["<s>"],2,20), file=f)
-    print("generateSentence([\"<s>\"],3,20):", lm.generateSentence(["<s>"],3,20), file=f)
-    print("generateSentence([\"<s>\"],3,20):", lm.generateSentence(["<s>"],3,20), file=f)
-    print("generateSentence([\"<s>\"],2,2):", lm.generateSentence(["<s>"],2,2), file=f)
-    print("generateSentence([\"<s>\"],2,2):", lm.generateSentence(["<s>"],2,2), file=f)
-    print("generateSentence([\"<s>\"],2,2):", lm.generateSentence(["<s>"],2,2), file=f)
-    print("generateSentence([\"<s>\"],2,1):", lm.generateSentence(["<s>"],2,1), file=f)
-    print("generateSentence([\"<s>\"],2,1):", lm.generateSentence(["<s>"],2,1), file=f)
-    print("generateSentence([\"<s>\"],2,0):", lm.generateSentence(["<s>"],2,0), file=f)
+lm.trainFromFile("PA2/train_corpus.txt")
+print(lm.perplexity("PA2/visible_testCorpus.txt", model="bigram"))
+print(lm.perplexity("PA2/visible_testCorpus.txt", model="trigram"))
+print(lm.generateSentence())
