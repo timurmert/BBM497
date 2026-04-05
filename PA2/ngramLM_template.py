@@ -329,9 +329,13 @@ class ngramLM:
 
         return generated
 
+
 lm = ngramLM()
 lm.trainFromFile("PA2/train_corpus.txt")
+print(lm.sizeOfVocab)
 print(lm.perplexity("PA2/visible_testCorpus.txt", model="unigram"))
 print(lm.perplexity("PA2/visible_testCorpus.txt", model="bigram"))
 print(lm.perplexity("PA2/visible_testCorpus.txt", model="trigram"))
 print(lm.generateSentence())
+print("==================================")
+print(lm.bigramCounts)

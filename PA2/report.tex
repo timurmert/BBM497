@@ -1,0 +1,130 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[turkish]{babel}
+\usepackage[margin=1.2cm, top=1cm, bottom=1cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tabularx}
+
+\titlespacing*{\section}{0pt}{5pt}{2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\large\bfseries BBM497 -- Programming Assignment 2: N-gram Language Modeling}\\[2pt]
+Timur Mert USTA \hfill Spring 2026
+\end{center}
+\vspace{-4pt}
+\hrule
+\vspace{4pt}
+
+\section{Training Statistics}
+Model trained on \texttt{train\_corpus.txt}: \textbf{Vocabulary Size} = 279, \textbf{Total Tokens} = 520, \textbf{Sentences} = 40.
+
+\section{Perplexity Results}
+\vspace{-2pt}
+\begin{center}\small
+\begin{tabular}{lc}
+\toprule
+\textbf{Model} & \textbf{Perplexity} \\
+\midrule
+Unigram & 126.3708 \\
+Bigram  & 88.5856  \\
+Trigram & 68.4339  \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-4pt}
+
+\section{Top 50 Most Frequent Bigrams}
+\vspace{-2pt}
+\begin{center}
+\scriptsize
+\begin{tabular}{rlr|rlr}
+\toprule
+\# & Bigram & F & \# & Bigram & F \\
+\midrule
+1 & ('.', '</s>') & 40 & 26 & (',', 'dilbilim') & 1 \\
+2 & ('<s>', 'bu') & 6 & 27 & (',', 'genellikle') & 1 \\
+3 & ('<s>', 'bir') & 4 & 28 & (',', 'g\"or\"ulmeyen') & 1 \\
+4 & (',', 'bir') & 3 & 29 & (',', 'istatistiksel') & 1 \\
+5 & ('daha', 'iyi') & 3 & 30 & (',', 'kelime') & 1 \\
+6 & (',', 'de\u{g}erlendirme') & 2 & 31 & (',', 'metni') & 1 \\
+7 & ('<s>', 'n-gram') & 2 & 32 & (',', 'olas\i l\i k') & 1 \\
+8 & ('ama\c{c}lar', '.') & 2 & 33 & ('/', 's') & 1 \\
+9 & ('bir', 'dil') & 2 & 34 & ('<', '/') & 1 \\
+10 & ('bir', 'kelimenin') & 2 & 35 & ('<', 's') & 1 \\
+11 & ('bir', 'model') & 2 & 36 & ('<s>', 'add-one') & 1 \\
+12 & ('bir', 'test') & 2 & 37 & ('<s>', 'aksi') & 1 \\
+13 & ('bu', 'nedenle') & 2 & 38 & ('<s>', 'ancak') & 1 \\
+14 & ('gelir', '.') & 2 & 39 & ('<s>', 'ansiklopedi') & 1 \\
+15 & ('kullan\i r', '.') & 2 & 40 & ('<s>', 'ayr\i ca') & 1 \\
+16 & ('modeli', ',') & 2 & 41 & ('<s>', 'bigram') & 1 \\
+17 & ('n-gram', 'modelleri') & 2 & 42 & ('<s>', 'buna') & 1 \\
+18 & ('s', '>') & 2 & 43 & ('<s>', 'daha') & 1 \\
+19 & ('test', 'dosyas\i') & 2 & 44 & ('<s>', 'dil') & 1 \\
+20 & (',', 'alan') & 1 & 45 & ('<s>', 'do\u{g}al') & 1 \\
+21 & (',', 'a\c{s}\i r\i') & 1 & 46 & ('<s>', 'd\"u\c{s}\"uk') & 1 \\
+22 & (',', 'baz\i') & 1 & 47 & ('<s>', 'ek') & 1 \\
+23 & (',', 'benzer') & 1 & 48 & ('<s>', 'e\u{g}itim') & 1 \\
+24 & (',', 'bilgisayarlar\i n') & 1 & 49 & ('<s>', 'fakat') & 1 \\
+25 & (',', 'dil') & 1 & 50 & ('<s>', 'farkl\i') & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-4pt}
+
+\section{Top 50 Most Frequent Trigrams}
+\vspace{-2pt}
+\begin{center}
+\scriptsize
+\begin{tabular}{rlr|rlr}
+\toprule
+\# & Trigram & F & \# & Trigram & F \\
+\midrule
+1 & (',', 'bir', 'kelimenin') & 2 & 26 & ('<s>', 'add-one', 'smoothing') & 1 \\
+2 & ('<s>', 'bu', 'nedenle') & 2 & 27 & ('<s>', 'aksi', 'halde') & 1 \\
+3 & ('ama\c{c}lar', '.', '</s>') & 2 & 28 & ('<s>', 'ancak', 'ba\u{g}lam') & 1 \\
+4 & ('bir', 'test', 'dosyas\i') & 2 & 29 & ('<s>', 'ansiklopedi', 'metinleri') & 1 \\
+5 & ('gelir', '.', '</s>') & 2 & 30 & ('<s>', 'ayr\i ca', '\"o\u{g}rencilerin') & 1 \\
+6 & ('kullan\i r', '.', '</s>') & 2 & 31 & ('<s>', 'bigram', 'modeli') & 1 \\
+7 & (',', 'alan', 'terimlerini') & 1 & 32 & ('<s>', 'bir', 'c\"umlenin') & 1 \\
+8 & (',', 'a\c{s}\i r\i', 'uyumu') & 1 & 33 & ('<s>', 'bir', 'dil') & 1 \\
+9 & (',', 'baz\i', 'durumlarda') & 1 & 34 & ('<s>', 'bir', 'e\u{g}itim') & 1 \\
+10 & (',', 'benzer', 'ama') & 1 & 35 & ('<s>', 'bir', 'model') & 1 \\
+11 & (',', 'bilgisayarlar\i n', 'insan') & 1 & 36 & ('<s>', 'bu', 'alan') & 1 \\
+12 & (',', 'bir', 'dil') & 1 & 37 & ('<s>', 'bu', 'ama\c{c}la') & 1 \\
+13 & (',', 'de\u{g}erlendirme', 'i\c{c}in') & 1 & 38 & ('<s>', 'bu', 'yakla\c{s}\i m') & 1 \\
+14 & (',', 'de\u{g}erlendirme', 's\i ras\i nda') & 1 & 39 & ('<s>', 'bu', 'y\"uzden') & 1 \\
+15 & (',', 'dil', 'modellemenin') & 1 & 40 & ('<s>', 'buna', 'ra\u{g}men') & 1 \\
+16 & (',', 'dilbilim', 'ile') & 1 & 41 & ('<s>', 'daha', 'uzun') & 1 \\
+17 & (',', 'genellikle', 'daha') & 1 & 42 & ('<s>', 'dil', 'modelleri') & 1 \\
+18 & (',', 'g\"or\"ulmeyen', 'kelimelere') & 1 & 43 & ('<s>', 'do\u{g}al', 'dil') & 1 \\
+19 & (',', 'istatistiksel', 'y\"ontemlerin') & 1 & 44 & ('<s>', 'd\"u\c{s}\"uk', 'perplexity') & 1 \\
+20 & (',', 'kelime', 'dizilerinin') & 1 & 45 & ('<s>', 'ek', 'olarak') & 1 \\
+21 & (',', 'metni', 'anlaml\i') & 1 & 46 & ('<s>', 'e\u{g}itim', 'verisi') & 1 \\
+22 & (',', 'olas\i l\i k', 'hesaplar\i n\i n') & 1 & 47 & ('<s>', 'fakat', 'as\i l') & 1 \\
+23 & ('/', 's', '>') & 1 & 48 & ('<s>', 'farkl\i', 't\"urde') & 1 \\
+24 & ('<', '/', 's') & 1 & 49 & ('<s>', 'haber', 'metinleri') & 1 \\
+25 & ('<', 's', '>') & 1 & 50 & ('<s>', 'makine', '\"o\u{g}renmesi') & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-4pt}
+
+\section{Generated Sentences}
+\vspace{-2pt}
+\begin{enumerate}[nosep, leftmargin=1.5em]
+    \item \textit{bir dil i\c{s}leme , de\u{g}erlendirme s\i ras\i nda gizli bir kelimenin hemen \"once gelen kelimeye ba\u{g}l\i{} oldu\u{g}unu varsayar .}
+    \item \textit{bu nedenle smoothing , de\u{g}erlendirme i\c{c}in de kullan\i labilir .}
+\end{enumerate}
+
+\section{Discussion}
+Perplexity decreases as context size grows: Unigram (126.37) $>$ Bigram (88.59) $>$ Trigram (68.43). Larger n-grams capture more local context, enabling sharper next-word predictions and thus lower perplexity. Add-1 smoothing is critical given the small corpus (279 types), as most trigrams occur only once and unseen sequences would otherwise receive zero probability. The results confirm that increasing n-gram order improves model quality on this dataset.
+
+\end{document}
