@@ -194,7 +194,11 @@ class ngramLM:
 
         prob = 1.0
 
-        if model == "bigram":
+        if model == "unigram":
+            for word in sent:
+                prob = prob * self.unigramProb_SmoothingUNK(word)
+
+        elif model == "bigram":
             if len(sent) == 1:
                 return self.unigramProb_SmoothingUNK(sent[0])
 
@@ -206,6 +210,9 @@ class ngramLM:
         elif model == "trigram":
             if len(sent) == 1:
                 return self.unigramProb_SmoothingUNK(sent[0])
+
+            elif len(sent) == 2:
+                return self.bigramProb_SmoothingUNK((sent[0], sent[1]))
 
             for i in range(2, len(sent)):
                 word_1 = sent[i-2]
@@ -252,7 +259,12 @@ class ngramLM:
                     sentences.append(current_sentence)
                     numOfTokens += len(current_sentence)
 
-        if model == "bigram":
+        if model == "unigram":
+            for sentence in sentences:
+                for word in sentence:
+                    log_prob_sum += math.log(self.unigramProb_SmoothingUNK(word))
+
+        elif model == "bigram":
             for sentence in sentences:
                 for i in range(1, len(sentence)):
                     word_1 = sentence[i-1]
@@ -319,6 +331,7 @@ class ngramLM:
 
 lm = ngramLM()
 lm.trainFromFile("PA2/train_corpus.txt")
+print(lm.perplexity("PA2/visible_testCorpus.txt", model="unigram"))
 print(lm.perplexity("PA2/visible_testCorpus.txt", model="bigram"))
 print(lm.perplexity("PA2/visible_testCorpus.txt", model="trigram"))
 print(lm.generateSentence())
